@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from services import sentiment_router
+from routers import sentiment_router
 
 app = FastAPI()
 
