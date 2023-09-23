@@ -1,6 +1,13 @@
-from fastapi import FastAPI
-
+from fastapi import FastAPI, HTTPException, Depends, status
 from routers import sentiment_router
+
+from database.database_connection import engine, SessionLocal
+from database.database_connection import db_models
+
+from sqlalchemy.orm import session
+
+# Instantiate the tables via sqlalchemy models 
+db_models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 

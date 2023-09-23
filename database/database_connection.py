@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine
-from sqlalchemy.exc.declarative import declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-SQLALCHEMY_DATABASE_URL = "mysql://root:my-secret-pw@localhost/your_database_name"
+SQLALCHEMY_DATABASE_URL = "mysql://root:my-secret-pw@127.0.0.1/sentiment_db"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
