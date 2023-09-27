@@ -1,12 +1,16 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class UserBase(BaseModel):
 
-    id : str
-    username : str
+
+class UserLogin(BaseModel):
+
+    username :  str
     hashed_password : str
 
+class UserBase(UserLogin):
+
+    id : str
 
 class SentimentTextBase(BaseModel):
 
