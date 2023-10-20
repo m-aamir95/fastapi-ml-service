@@ -20,3 +20,9 @@ class SentimentTextBase(BaseModel):
     text : str
     sentiment_bag : str
     reviewed : bool
+
+
+class SentimentTextAnalysisRequest(BaseModel):
+
+    user_id : str
+    text : str
