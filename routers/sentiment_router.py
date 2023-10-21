@@ -2,9 +2,6 @@ from fastapi import APIRouter, Depends
 
 from pydantic_models import data_models
 
-from transformers import pipeline
-
-
 
 from services.sentiment_service import SentimentService, SentimentServiceHuggingFace
 
@@ -22,11 +19,11 @@ class GetSentimentService():
 
         self.text_analysis_service : SentimentService = SentimentServiceHuggingFace()
 
-    def __call__(self):
+    def __call__(self) -> SentimentService:
         
         return self.text_analysis_service
 
-sentimentService_dependency = GetSentimentService()
+sentimentService_dependency : SentimentService = GetSentimentService()
 #endregion
 
 @router.post("/get_sentiment_score")
