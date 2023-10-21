@@ -8,6 +8,9 @@ from sqlalchemy.orm import session
 
 from pydantic_models import data_models 
 
+
+
+
 # Instantiate the tables via sqlalchemy models 
 db_schema_models.Base.metadata.create_all(bind=engine)
 

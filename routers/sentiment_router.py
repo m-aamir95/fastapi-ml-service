@@ -4,6 +4,10 @@ from pydantic_models import data_models
 
 from transformers import pipeline
 
+
+
+from services.sentiment_service import SentimentService, SentimentServiceHuggingFace
+
 router = APIRouter(
     prefix="/api/ai_model",
     tags=["AI_Model"]
@@ -11,10 +15,9 @@ router = APIRouter(
 
 
 @router.post("/get_sentiment_score")
-async def get_sentiment_score(req : data_models.SentimentTextAnalysisRequest) -> dict:
-   
+async def get_sentiment_score(req : data_models.SentimentTextAnalysisWebRequest) -> dict:
     
-    sentiment_analysis_pipeline = pipeline("sentiment-analysis")
+    text_analysis_service : SentimentService = SentimentServiceHuggingFace()
 
-    tr = {"model_resp" : sentiment_analysis_pipeline(req.text)}
-    return tr
+    return text_analysis_service.get_text_analysis(req.text)
+    

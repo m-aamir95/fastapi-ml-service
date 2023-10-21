@@ -22,7 +22,7 @@ class SentimentTextBase(BaseModel):
     reviewed : bool
 
 
-class SentimentTextAnalysisRequest(BaseModel):
+class SentimentTextAnalysisWebRequest(BaseModel):
 
     user_id : str
     text : str
