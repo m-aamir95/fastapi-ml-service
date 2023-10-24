@@ -5,10 +5,6 @@ from pydantic_models import data_models
 
 from services.sentiment_service import SentimentService, SentimentServiceHuggingFace
 
-router = APIRouter(
-    prefix="/api/ai_model",
-    tags=["AI_Model"]
-)
 
 
 
@@ -25,6 +21,12 @@ class GetSentimentService():
 
 sentimentService_dependency : SentimentService = GetSentimentService()
 #endregion
+
+router = APIRouter(
+    prefix="/api/ai_model",
+    tags=["AI_Model"]
+)
+
 
 @router.post("/get_sentiment_score")
 async def get_sentiment_score(req : data_models.SentimentTextAnalysisWebRequest,

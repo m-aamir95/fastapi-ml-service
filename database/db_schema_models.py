@@ -8,19 +8,19 @@ class User(Base):
 
     __tablename__ = "User"
     
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     username = Column(String(32), unique=True, index=True)
     hashed_password = Column(String(256))
 
     # Establish a bi-directional relationship with SentimentText
-    sentiment_texts = relationship("SentimentText", back_populates="writter_by")
+    sentiment_texts = relationship("SentimentText", back_populates="written_by")
 
 
 class SentimentText(Base):
 
     __tablename__ = "SentimentText"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey("User.id"))
     text_id = Column(String(32))
     text = Column(String(1000))

@@ -1,16 +1,16 @@
 from pydantic import BaseModel
 from typing import Optional
 
+# Models for interacting with user objects
 
-
-class UserLogin(BaseModel):
+class UserBase(BaseModel):
 
     username :  str
     hashed_password : str
 
-class UserBase(UserLogin):
 
-    id : str
+
+# Models For Sentiment Analysis interaction
 
 class SentimentTextBase(BaseModel):
 

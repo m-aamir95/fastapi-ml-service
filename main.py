@@ -1,10 +1,8 @@
 from fastapi import FastAPI, HTTPException, Depends, status
-from routers import sentiment_router
+from routers import sentiment_router, user_router
 
-from database.database_connection import engine, SessionLocal
+from database.database_connection import engine
 from database import db_schema_models
-
-from sqlalchemy.orm import session
 
 from pydantic_models import data_models 
 
@@ -14,10 +12,13 @@ from pydantic_models import data_models
 # Instantiate the tables via sqlalchemy models 
 db_schema_models.Base.metadata.create_all(bind=engine)
 
+
+
 app = FastAPI()
 
 # Include routes defined in other files
 app.include_router(sentiment_router.router)
+app.include_router(user_router.router)
 
 
 
@@ -30,7 +31,7 @@ async def root() -> data_models.UserBase:
     return new_user
 
 @app.post("/add_user", tags=["General"])
-async def add_user(user : data_models.UserLogin) -> dict:    
+async def add_user(user : data_models.UserBase) -> dict:    
     
     print("Received the following user")
     print(user)

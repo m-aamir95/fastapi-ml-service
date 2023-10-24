@@ -7,7 +7,7 @@ SQLALCHEMY_DATABASE_URL = "mysql://root:my-secret-pw@127.0.0.1/sentiment_db"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-SessionLocal =  sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
+CustomizedDBSessionFactory =  sessionmaker(autocommit=False, autoflush=False, bind=engine)
+CustomizedDBSession = CustomizedDBSessionFactory()
 
 Base = declarative_base()
