@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 
 from pydantic_models import data_models
 
+from database.database_connection import CustomizedDBSession
 
 from services.sentiment_service import SentimentService, SentimentServiceHuggingFace
 from services.user_service import UserService, SqlAlchemyUserService
@@ -18,7 +19,7 @@ class GetSentimentService():
 
     def __init__(self):
 
-        self.text_analysis_service : SentimentService = SentimentServiceHuggingFace()
+        self.text_analysis_service : SentimentService = SentimentServiceHuggingFace(CustomizedDBSession)
 
     def __call__(self) -> SentimentService:
         

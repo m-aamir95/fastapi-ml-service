@@ -22,9 +22,9 @@ class SentimentText(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey("User.id"))
-    text_id = Column(String(32))
+    text_id = Column(String(32)) # What is this, please leave explanation about such fields in the future
     text = Column(String(1000))
-    sentiment_bag = Column(String(50))
+    sentiment_bag = Column(String(50)) # Sentiment bag contains the the JSON resp from the model
     reviewed = Column(Boolean, default=False)
 
     # Establish a bi-directional relationship with User
