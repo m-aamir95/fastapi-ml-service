@@ -6,6 +6,7 @@ from pydantic_models import data_models
 from services.sentiment_service import SentimentService, SentimentServiceHuggingFace
 from services.user_service import UserService, SqlAlchemyUserService
 
+from database.database_connection import CustomizedDBSession
 
 
 
@@ -28,7 +29,7 @@ sentimentService_dependency : SentimentService = GetSentimentService()
 class GetUserService():
 
     def __init__(self):
-        self.user_service : UserService = SqlAlchemyUserService()
+        self.user_service : UserService = SqlAlchemyUserService(CustomizedDBSession)
     
     def __call__(self) -> UserService:
         return self.user_service
@@ -48,5 +49,5 @@ async def get_sentiment_score(req : data_models.SentimentTextAnalysisWebRequest,
                               user_service = Depends(userService_dependency)) -> dict:
     
 
-    return text_analysis_service.get_text_analysis(req.text, user_service)
+    return text_analysis_service.get_text_analysis(req, user_service)
     

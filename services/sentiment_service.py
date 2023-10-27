@@ -1,6 +1,10 @@
 from transformers import pipeline
 
+from fastapi import HTTPException
+
 from abc import ABC, abstractmethod
+
+from pydantic_models import data_models
 
 from services.user_service import UserService
 
@@ -25,9 +29,11 @@ class SentimentServiceHuggingFace(SentimentService):
         self.sentiment_analysis_pipeline = pipeline("sentiment-analysis")
 
     
-    def get_text_analysis(self, text : str, user_service : UserService) -> dict:
+    def get_text_analysis(self, req : data_models.SentimentTextAnalysisWebRequest, user_service : UserService) -> dict:
 
         # Authenticate the user
+        if user_service.verify_user_login(req.username, req.hashed_password) is None:
+            raise HTTPException(status_code=400, detail="Invalid username or password")
 
 
-        return {"model_resp" : self.sentiment_analysis_pipeline(text)}
+        return {"model_resp" : self.sentiment_analysis_pipeline(req.text)}
