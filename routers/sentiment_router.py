@@ -4,11 +4,15 @@ from pydantic_models import data_models
 
 
 from services.sentiment_service import SentimentService, SentimentServiceHuggingFace
+from services.user_service import UserService, SqlAlchemyUserService
 
 
 
 
-#region Dependency Injection for the Sentiment Analysis Service
+#region Dependency Injection for services
+# TODO, maybe the GetSentimentService and GetUserService class can be used as one
+# TODO, inject the actual service via the constructor, this way we can use the same
+# TODO, class for both the services
 class GetSentimentService():
 
     def __init__(self):
@@ -20,6 +24,16 @@ class GetSentimentService():
         return self.text_analysis_service
 
 sentimentService_dependency : SentimentService = GetSentimentService()
+
+class GetUserService():
+
+    def __init__(self):
+        self.user_service : UserService = SqlAlchemyUserService()
+    
+    def __call__(self) -> UserService:
+        return self.user_service
+
+userService_dependency = GetUserService()
 #endregion
 
 router = APIRouter(
@@ -30,8 +44,9 @@ router = APIRouter(
 
 @router.post("/get_sentiment_score")
 async def get_sentiment_score(req : data_models.SentimentTextAnalysisWebRequest,
-                              text_analysis_service = Depends(sentimentService_dependency)) -> dict:
+                              text_analysis_service = Depends(sentimentService_dependency),
+                              user_service = Depends(userService_dependency)) -> dict:
     
 
-    return text_analysis_service.get_text_analysis(req.text)
+    return text_analysis_service.get_text_analysis(req.text, user_service)
     
