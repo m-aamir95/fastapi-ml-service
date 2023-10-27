@@ -41,4 +41,18 @@ class SqlAlchemyUserService(UserService):
         self.db_session.refresh(new_user) # Used to synchronize sqlalchemy with the databse
 
         return new_user
-    
+
+
+    def verify_user_login(self, username: str, hashed_password : str):
+        
+        user_to_verify = User(username=username, hashed_password=hashed_password)
+
+        #Check if the username and password exists
+        matched_user = self.db_session.query(User).filter(User.username == user_to_verify.username, 
+                                                           User.hashed_password == user_to_verify.hashed_password).first()
+
+        
+        if matched_user:
+            return matched_user
+        else:
+            None
