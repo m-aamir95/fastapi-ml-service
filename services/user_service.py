@@ -16,6 +16,9 @@ class UserService(ABC):
     def create_user(self, username : str, hashed_password : str):
         pass
 
+    @abstractmethod
+    def verify_user_login(self, username: str, hashed_password : str):
+        pass
 
 class SqlAlchemyUserService(UserService):
 
