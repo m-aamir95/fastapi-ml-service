@@ -24,5 +24,6 @@ class SentimentTextBase(BaseModel):
 
 class SentimentTextAnalysisWebRequest(BaseModel):
 
-    user_id : str
+    username : str
+    hashed_password : str
     text : str
