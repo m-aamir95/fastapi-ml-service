@@ -4,6 +4,8 @@ from database.db_schema_models import User
 
 from abc import ABC, abstractmethod
 
+from fastapi import HTTPException
+
 
 class UserService(ABC):
 
@@ -23,7 +25,17 @@ class SqlAlchemyUserService(UserService):
     def create_user(self, username : str, hashed_password : str):
 
         new_user = User(username=username, hashed_password=hashed_password)
-    
+
+        # Check if the username already exists
+        matching_users = self.db_session.query(User).filter(User.username == new_user.username)
+        
+       
+        if matching_users:
+            for user in matching_users:
+                raise HTTPException(status_code=422, detail="Username already exists")
+
+
+        # Username does not already exist, go ahead and create a new user
         self.db_session.add(new_user)
         self.db_session.commit()
         self.db_session.refresh(new_user) # Used to synchronize sqlalchemy with the databse
