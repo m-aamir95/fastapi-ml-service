@@ -4,10 +4,12 @@ services:
 
   sentiment_analysis_fastapi:
     container_name: sentiment_analysis_fastapi
-    image: imageName
+    image: fastapi-app
     restart: always
     ports:
-      -8080:8080
+      - 8080:8080
+    depends_on:
+      - db
 
   db:
     container_name: db

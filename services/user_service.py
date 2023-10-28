@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 
 from fastapi import HTTPException
 
+from typing import Optional
 
 class UserService(ABC):
 
@@ -17,8 +18,8 @@ class UserService(ABC):
         pass
 
     @abstractmethod
-    def verify_user_login(self, username: str, hashed_password : str) -> User | None:
-        pass
+    def verify_user_login(self, username: str, hashed_password : str) -> Optional[User]:
+        pass    
 
 class SqlAlchemyUserService(UserService):
 
@@ -46,7 +47,7 @@ class SqlAlchemyUserService(UserService):
         return new_user
 
 
-    def verify_user_login(self, username: str, hashed_password : str) -> User | None:
+    def verify_user_login(self, username: str, hashed_password : str) -> Optional[User]:
         
         user_to_verify = User(username=username, hashed_password=hashed_password)
 
