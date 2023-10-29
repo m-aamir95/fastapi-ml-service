@@ -47,7 +47,7 @@ class SqlAlchemyUserService(UserService):
         return new_user
 
 
-    def verify_user_login(self, username: str, hashed_password : str) -> Optional[User]:
+    def verify_user_login(self, username: str, hashed_password : str) -> Optional[User  ]:
         
         user_to_verify = User(username=username, hashed_password=hashed_password)
 
