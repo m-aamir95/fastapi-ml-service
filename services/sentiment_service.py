@@ -46,6 +46,14 @@ class SentimentServiceHuggingFace(SentimentService):
 
         text_analysis_model_resp = self.sentiment_analysis_pipeline(req.text)
 
+        # The model outputs LABEL_1 and LABEL_0 for LABEL_1 as a Good Positive review and LABEL_0 as a negative one
+        # We are going to chage LABEL_1 -> Positive and LABEL_0 to Negative before pushing things to the DB
+        # And returning the Resp to user
+        if text_analysis_model_resp[0]["label"] == "LABEL_1":
+            text_analysis_model_resp[0]["label"] = "Positive"
+        else:
+            text_analysis_model_resp[0]["label"] = "Negative"
+
         # Insert the record into the database
         sentiment_record = db_schema_models.SentimentText(user_id=authenticated_user.id,
                                                           text=req.text,
