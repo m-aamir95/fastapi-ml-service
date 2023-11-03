@@ -1,5 +1,4 @@
 from fastapi import FastAPI, HTTPException, Depends, status
-from fastapi.responses import RedirectResponse
 
 from routers import sentiment_router, user_router
 
@@ -26,10 +25,10 @@ app.include_router(user_router.router)
 
 # General API routes
 @app.get("/", tags=["General"])
-async def root() -> data_models.UserBase:
+async def root() -> dict:
     
-    # Redirect to docs
-    return RedirectResponse(f"http://localhost:{app.port}/docs", status_code=400)
+    # Redirect to docs message
+    return {"msg" : "Please visit /docs"}
 
 
 @app.get("/health", tags=["General"])
@@ -39,3 +38,8 @@ async def health_check() -> dict:
             "Status_Boolean" : True,
             "Model_Status" : "Configured and Loaded",
             "Model_Status_Boolean" : True}
+
+
+
+
+            

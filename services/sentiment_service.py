@@ -32,7 +32,7 @@ class SentimentServiceHuggingFace(SentimentService):
 
         #TODO, By default, the pipeline object will choose a sentiment analysis model itself
         #We can configure it in the arguments
-        self.sentiment_analysis_pipeline = pipeline("sentiment-analysis")
+        self.sentiment_analysis_pipeline = pipeline("text-classification", model="m-aamir95/finetuning-sentiment-classification-model-with-amazon-appliances-data")
         self.db_session : Session = db_session
 
     
@@ -44,7 +44,7 @@ class SentimentServiceHuggingFace(SentimentService):
             raise HTTPException(status_code=400, detail="Invalid username or password")
         
 
-        
+        text_analysis_model_resp = self.sentiment_analysis_pipeline(req.text)
 
         # Insert the record into the database
         sentiment_record = db_schema_models.SentimentText(user_id=authenticated_user.id,
