@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.responses import RedirectResponse
+
 from routers import sentiment_router, user_router
 
 from database.database_connection import engine
@@ -25,18 +27,9 @@ app.include_router(user_router.router)
 # General API routes
 @app.get("/", tags=["General"])
 async def root() -> data_models.UserBase:
-
-    new_user = data_models.UserBase(id = "12345", username="aamir", hashed_password="aamir321")
-
-    return new_user
-
-@app.post("/add_user", tags=["General"])
-async def add_user(user : data_models.UserBase) -> dict:    
     
-    print("Received the following user")
-    print(user)
-
-    return { "Status" : "All good"}
+    # Redirect to docs
+    return RedirectResponse(f"http://localhost:{app.port}/docs", status_code=400)
 
 
 @app.get("/health", tags=["General"])

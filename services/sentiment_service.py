@@ -44,7 +44,7 @@ class SentimentServiceHuggingFace(SentimentService):
             raise HTTPException(status_code=400, detail="Invalid username or password")
         
 
-        text_analysis_model_resp = self.sentiment_analysis_pipeline(req.text)
+        
 
         # Insert the record into the database
         sentiment_record = db_schema_models.SentimentText(user_id=authenticated_user.id,
