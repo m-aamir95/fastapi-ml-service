@@ -1,48 +1,68 @@
-import { useState } from "react";
+// Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+// Bootstrap Bundle JS
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import 'bootstrap/dist/css/bootstrap.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
-import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 
-const ThemeSwitcher = () => {
-  const [theme, setTheme] = useState(null);
+import infoIcon from './icons/info-icon.svg'
 
-  const resetTheme = () => {
-    setTheme(null);
-  };
-
+const App = () => {
   return (
-    <div className="mb-2">
-      <Dropdown as={ButtonGroup} size="lg">
-        <Button
-          className="text-capitalize"
-          variant={theme ? theme : "secondary"}
-        >
-          {theme ? theme : "Default"}
-        </Button>
-        <Dropdown.Toggle
-          split
-          variant={theme ? theme : "secondary"}
-          id="dropdown-split-basic"
-        />
-        <Dropdown.Menu>
-          <Dropdown.Item eventKey="1" onClick={() => setTheme("primary")}>
-            Primary
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="2" onClick={() => setTheme("danger")}>
-            Danger
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="3" onClick={() => setTheme("success")}>
-            Success
-          </Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item eventKey="4" onClick={resetTheme}>
-            Default Theme
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    </div>
+    <Container fluid>
+      <Row className="mt-5">
+        <Col md={9}>
+          Hello
+        </Col>
+
+        <Col md={3}>
+          <Card
+            style={{ width: '18rem' }}
+            bg="secondary"
+            text="light"
+          >
+            <Card.Body>
+              <Card.Title>About the app</Card.Title>
+              <Card.Text>
+                    The <b>Sentiment Analysis Service</b> is designed for internal utilization as a tool and API.
+                    This user interface has been developed solely for demonstrative purposes
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+
+
+      </Row>
+      
+      <Row className="mt-3">
+        <Col md={9}>
+        </Col>
+        <Col>
+          
+        <Col md={3}>
+          <Card
+            style={{ width: '18rem' }}
+            bg="success"
+            text="light"
+          >
+            <Card.Body>
+              <Card.Title>About the Machine learning model</Card.Title>
+              <Card.Text>
+                  Our backend system hosts a HuggingFace DistilBERT model that has undergone fine-tuning.
+                  This fine-tuned model has been trained on a dataset of Amazon appliance reviews.
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
-export default ThemeSwitcher;
+export default App;
