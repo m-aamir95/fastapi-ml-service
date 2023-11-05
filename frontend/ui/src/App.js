@@ -34,7 +34,14 @@ const App = () => {
 
   return (
     <Container fluid>
-      <Row className="mt-5">
+
+      <Row className="mt-2">
+        <Col md={4}></Col>
+        <Col md={4}><h3><Badge className="mt-2" bg="success">Sentiment Analysis Service</Badge></h3></Col>
+        <Col md={4}></Col>
+      </Row>
+
+      <Row className="mt-2">
         <Col md={1} />
 
 
@@ -44,7 +51,7 @@ const App = () => {
 
           <Form className="mt-5">
             <Form.Group className="mb-3" controlId="text_to_classify">
-              <Form.Label>Text to classify</Form.Label>
+              <Form.Label><strong>Text to classify</strong></Form.Label>
               <Form.Control as="textarea" rows={3} defaultValue={defaultSentimentText} onChange={ (e) => setSentimentText(e.target.value)} />
             </Form.Group>
 
@@ -66,7 +73,7 @@ const App = () => {
             text="light"
           >
             <Card.Body>
-              <Card.Title>About the app</Card.Title>
+              <Card.Title>About the Service</Card.Title>
               <Card.Text>
                 The <b>Sentiment Analysis Service</b> is designed for internal utilization as a tool and API.
                 This user interface has been developed solely for demonstrative purposes
@@ -84,10 +91,10 @@ const App = () => {
 
         <Col md={7}>
           <Badge className="mb-2" bg="secondary">Positive Sentiment</Badge>
-          <ProgressBar variant="success" now={10} label={`${10}%`} animated />
+          <ProgressBar variant="success" now={0} label={`${10}%`} animated />
 
           <Badge className="mt-3 mb-2" bg="secondary">Negative Sentiment</Badge>
-          <ProgressBar variant="danger" now={40} label={`${40}%`} animated />
+          <ProgressBar variant="danger" now={0} label={`${40}%`} animated />
         </Col>
 
         <Col md={1}></Col>
