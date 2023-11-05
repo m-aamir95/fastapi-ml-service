@@ -12,7 +12,26 @@ import Form from 'react-bootstrap/Form';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Badge from 'react-bootstrap/Badge';
 
+import { useState, useEffect } from 'react';
+
 const App = () => {
+
+  const defaultSentimentText = "Hello this app is simple but useful";
+  const [sentimentText, setSentimentText] = useState(defaultSentimentText);
+
+  const [prevSentimentText, setPrevSentimentText] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (sentimentText != prevSentimentText) {
+        setPrevSentimentText(sentimentText);
+        console.log(`${sentimentText}`);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  });
+
   return (
     <Container fluid>
       <Row className="mt-5">
@@ -26,7 +45,7 @@ const App = () => {
           <Form className="mt-5">
             <Form.Group className="mb-3" controlId="text_to_classify">
               <Form.Label>Text to classify</Form.Label>
-              <Form.Control as="textarea" rows={3} defaultValue="Hello this app is simple but useful" />
+              <Form.Control as="textarea" rows={3} defaultValue={defaultSentimentText} onChange={ (e) => setSentimentText(e.target.value)} />
             </Form.Group>
 
 
