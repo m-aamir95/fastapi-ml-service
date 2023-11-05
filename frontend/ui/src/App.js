@@ -21,11 +21,48 @@ const App = () => {
 
   const [prevSentimentText, setPrevSentimentText] = useState("");
 
+  const [negativeProgressBar, setNegativeProgressBar] = useState(0);
+  const [positiveProgressBar, setPositiveProgressBar] = useState(0);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (sentimentText != prevSentimentText) {
+    const interval = setInterval(async () => {
+      if (sentimentText !== prevSentimentText) {
         setPrevSentimentText(sentimentText);
         console.log(`${sentimentText}`);
+
+        const sentiment_api = "http://localhost:8080/api/ai_model/get_sentiment_score";
+        let resp = await fetch(sentiment_api, {
+
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "username": "djzaamir",
+            "hashed_password": "12345",
+            "text": sentimentText
+        
+          })
+        });
+
+        resp = await resp.json();
+
+        const sentiment_label = resp["model_resp"][0]["label"];
+        const sentiment_confidence = resp["model_resp"][0]["score"];
+
+        //update the progress bars
+        if (sentiment_label.toLowerCase() === "positive") {
+          setPositiveProgressBar((Math.round(sentiment_confidence * 100)));
+          setNegativeProgressBar((Math.round((1 - sentiment_confidence) * 100)));
+        }
+
+        if (sentiment_label.toLowerCase() === "negative") {
+          setPositiveProgressBar((Math.round((1 - sentiment_confidence) * 100)));
+          setNegativeProgressBar((Math.round(sentiment_confidence * 100)));
+        }
+
+        console.log();
+        
       }
     }, 1000);
 
@@ -91,10 +128,10 @@ const App = () => {
 
         <Col md={7}>
           <Badge className="mb-2" bg="secondary">Positive Sentiment</Badge>
-          <ProgressBar variant="success" now={0} label={`${10}%`} animated />
+          <ProgressBar variant="success" now={positiveProgressBar} label={`${positiveProgressBar}%`} animated />
 
           <Badge className="mt-3 mb-2" bg="secondary">Negative Sentiment</Badge>
-          <ProgressBar variant="danger" now={0} label={`${40}%`} animated />
+          <ProgressBar variant="danger" now={negativeProgressBar} label={`${negativeProgressBar}%`} animated />
         </Col>
 
         <Col md={1}></Col>

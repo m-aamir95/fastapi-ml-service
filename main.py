@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
 
 from routers import sentiment_router, user_router
 
@@ -14,8 +15,18 @@ from pydantic_models import data_models
 db_schema_models.Base.metadata.create_all(bind=engine)
 
 
-
 app = FastAPI()
+
+#Enable CORS
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Include routes defined in other files
 app.include_router(sentiment_router.router)
