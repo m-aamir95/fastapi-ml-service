@@ -1,9 +1,9 @@
-FROM python:3.9-slim
+FROM node:slim
 
 # This is where our fastapi-ml-app will be copied into
 WORKDIR /app 
 
-# Installing linux dependencies, these are required for the mysql-client
+# Installing linux dependencies(if any), these are required for the mysql-client
 # Which is used by python and sqlAlchemy to communicate with mysql database
 RUN apt update
 RUN apt install pkg-config libssl-dev libmariadb-dev build-essential -y
