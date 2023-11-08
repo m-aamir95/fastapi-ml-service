@@ -1,4 +1,6 @@
-FROM node:slim
+#============================== Build Image =============================
+
+FROM node:latest as builder
 
 # This is where our reactjs app will be copied into
 WORKDIR /app 
@@ -7,18 +9,44 @@ WORKDIR /app
 # Which is used by python and sqlAlchemy to communicate with mysql database
 
 # Copy the frontend application code to the working directory
-COPY ./frontend/ui .
+COPY ../../frontend/ui .
+
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json .
+COPY ../../package*.json .
 
 
 # Install project dependencies
 RUN npm install
 
 
+# The actual command to start our application
+RUN npm run build
+
+#============================== Production Image =============================
+
+FROM node:lts-bullseye-slim
+
+WORKDIR /app
+# Installing linux dependencies (If any), these are required for the mysql-client
+# Which is used by python and sqlAlchemy to communicate with mysql database
+RUN apt update  -y
+
+# Setting up env variables
+#Some frameworks and libraries may only turn on the optimized configuration that is suited to production
+#if that NODE_ENVenvironment variable is set to production. 
+#Putting aside our opinion on whether this is a good or bad practice for frameworks to take, it is important to know this.
+ENV NODE_ENV production
+
 # Expose the default http port
 EXPOSE 80 
 
+# # Switch to less non-root user
+# USER node
+
+# Installing NPM packages
+RUN npm install -g serve
+# Move the files from the builder image to this production image
+COPY --from=builder /app/build /app/build
 # The actual command to start our application
-CMD ["npm", "start"]
+CMD ["serve", "-p", "80", "build"]
