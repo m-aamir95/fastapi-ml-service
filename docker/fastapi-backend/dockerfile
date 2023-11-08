@@ -1,4 +1,4 @@
-FROM node:slim
+FROM python:3.9-slim
 
 # This is where our fastapi-ml-app will be copied into
 WORKDIR /app 
