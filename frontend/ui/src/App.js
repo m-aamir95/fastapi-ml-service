@@ -28,9 +28,13 @@ const App = () => {
     const interval = setInterval(async () => {
       if (sentimentText !== prevSentimentText) {
         setPrevSentimentText(sentimentText);
-        console.log(`${sentimentText}`);
 
-        const sentiment_api = "http://localhost:8080/api/ai_model/get_sentiment_score";
+        //TODO; hardcoding IP address is not great for many reasons
+        //TODO; ideally it should be on the localhost, and a proxy like nginx
+        //TODO; should forward the requests to it
+        //TODO; Moreover, hosts and ports should be located into a single conf file
+        //TODO; and it should be read from there
+        const sentiment_api = "http://170.64.185.75:8080/api/ai_model/get_sentiment_score";
         let resp = await fetch(sentiment_api, {
 
           method: "POST",
@@ -38,8 +42,8 @@ const App = () => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            "username": "djzaamir",
-            "hashed_password": "12345",
+            "username": "admin",
+            "hashed_password": "admin",
             "text": sentimentText
         
           })
