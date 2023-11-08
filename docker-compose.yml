@@ -1,18 +1,33 @@
 version: '3.1'
 
 services:
+  
+  # The reactjs based UI image
+  sentiment_analysis_ui:
+    build: 
+      context: . #It is very important to set the right context, else directories will not be resolved
+      dockerfile: docker/reactjs-frontend/dockerfile
+    container_name: sentiment_analysis_frontend
+    image: sentiment_analysis_ui # Same as the service name in the docker-compose
+    restart: always
+    ports:
+     - 80:80
+    depends_on: 
+      - sentiment_analysis_fastapi
 
+  # The ML backend exposed via fastapi
   sentiment_analysis_fastapi:
+    build: 
+      context: .
+      dockerfile: docker/fastapi-backend/dockerfile
     container_name: sentiment_analysis_fastapi
-    image: fastapi-app
+    image: sentiment_analysis_fastapi
     restart: always
     ports:
       - 8080:8080
     depends_on:
       - db
 
-    # I am also triggering a Mysql database setup script from here
-    
 
   db:
     container_name: db
