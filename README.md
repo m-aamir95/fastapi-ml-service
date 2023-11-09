@@ -15,6 +15,8 @@ This sentiment classification application features a DistilBERT model that has u
 
 The backend is developed using FASTAPI which interacts with a MySQL database using SQlAlchemy. The database is used to manage the user interactions, store the text classification requests and the response of the model, so that a human may review them in the future. A simple reactjs based frontend is also developed for demonstrative and testing purposes.
 
+More information about the fine-tuned HuggingFace model can be viewed **[here](https://huggingface.co/m-aamir95/finetuning-sentiment-classification-model-with-amazon-appliances-data)**
+
 To make deployment easier and smooth, docker has been employed which hosts the following three containers.
 
 1. FastAPI based backend container.
@@ -44,4 +46,5 @@ To get started with the Project, follow these steps:
 ## Usage
 
 1. The FastAPI API points can be viewed by visiting http://localhost:8080/docs
-2. You can also interact with the app by visiting http://localhost:80 
+2. 
+3. You can also interact with the app by visiting http://localhost:80 
