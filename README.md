@@ -32,11 +32,11 @@ To get started with the Project, follow these steps:
 2. Navigate to the project directory: `cd fastapi-ml-service`
 3. Install the linux dependencies including docker: `sudo bash bash_scripts/install_system_dependencies.sh`
 4. Currently we need to manually create the `sentiment_db` inside the mysql docker container (Ideally it should be a part of post container init script). Following are the steps to manually create the `sentiment_db` inside the mysql container.
-   *  sudo docker-compose up --build -d db
-   *  sudo docker exec -it db bash # Jump into the db container
-   *  mysql -u root -p
+   *  `sudo docker-compose up --build -d db`
+   *  `sudo docker exec -it db bash` # Jump into the db container
+   *  `mysql -u root -p`
    *  When prompted enter the mysql root password which is by default set to `my-secret-pw`
-   *  create database sentiment_db;
+   *  `create database sentiment_db;`
    *  exit # Exit MySQL shell
    *  exit # Exit container
 5. Start all the containers `sudo docker-compose up -d --build`
