@@ -43,11 +43,5 @@ To get started with the Project, follow these steps:
 
 ## Usage
 
-Here are some examples of how to use Awesome Project:
-
-```javascript
-const awesome = require('awesome-project');
-
-// Use the awesome function
-awesome.doAwesomeThing();
-```
+1. The FastAPI API points can be viewed by visiting http://localhost:8080/docs
+2. You can also interact with the app by visiting http://localhost:80 
