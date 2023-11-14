@@ -59,11 +59,12 @@ class SentimentServiceHuggingFace(SentimentService):
                                                           text=req.text,
                                                           sentiment_bag= json.dumps(text_analysis_model_resp[0]),
                                                           )
-        
+
         with self.custom_db_session as db_session:
+
             self.db_session.add(sentiment_record)
             self.db_session.commit()
             self.db_session.refresh(sentiment_record)
-        
+    
 
         return {"model_resp" : text_analysis_model_resp}
