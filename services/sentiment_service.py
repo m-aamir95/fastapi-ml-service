@@ -28,12 +28,12 @@ class SentimentService(ABC):
 # HuggingFace implementation
 class SentimentServiceHuggingFace(SentimentService):
 
-    def __init__(self, db_session : Session):
+    def __init__(self, custom_db_session : Session):
 
         #TODO, By default, the pipeline object will choose a sentiment analysis model itself
         #We can configure it in the arguments
         self.sentiment_analysis_pipeline = pipeline("text-classification", model="m-aamir95/finetuning-sentiment-classification-model-with-amazon-appliances-data")
-        self.db_session : Session = db_session
+        self.custom_db_session : Session = custom_db_session
 
     
     def get_text_analysis(self, req : data_models.SentimentTextAnalysisWebRequest, user_service : UserService) -> dict:
@@ -60,9 +60,10 @@ class SentimentServiceHuggingFace(SentimentService):
                                                           sentiment_bag= json.dumps(text_analysis_model_resp[0]),
                                                           )
         
-        self.db_session.add(sentiment_record)
-        self.db_session.commit()
-        self.db_session.refresh(sentiment_record)
+        with self.custom_db_session as db_session:
+            self.db_session.add(sentiment_record)
+            self.db_session.commit()
+            self.db_session.refresh(sentiment_record)
         
 
         return {"model_resp" : text_analysis_model_resp}

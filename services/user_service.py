@@ -23,8 +23,8 @@ class UserService(ABC):
 
 class SqlAlchemyUserService(UserService):
 
-    def __init__(self, db_session : Session):
-        self.db_session = db_session
+    def __init__(self, custom_db_session : Session):
+        self.custom_db_session = custom_db_session
 
     def create_user(self, username : str, hashed_password : str):
 
@@ -39,10 +39,15 @@ class SqlAlchemyUserService(UserService):
                 raise HTTPException(status_code=422, detail="Username already exists")
 
 
-        # Username does not already exist, go ahead and create a new user
-        self.db_session.add(new_user)
-        self.db_session.commit()
-        self.db_session.refresh(new_user) # Used to synchronize sqlalchemy with the databse
+        # Operating the session under python context manager so that the session
+        # Is properly closed when required
+        # TODO; ideally this sort of repetitive logic should be handled at a single place
+
+        with self.custom_db_session() as db_session:
+            # Username does not already exist, go ahead and create a new user
+            self.db_session.add(new_user)
+            self.db_session.commit()
+            self.db_session.refresh(new_user) # Used to synchronize sqlalchemy with the databse
 
         return new_user
 
@@ -51,8 +56,9 @@ class SqlAlchemyUserService(UserService):
         
         user_to_verify = User(username=username, hashed_password=hashed_password)
 
-        #Check if the username and password exists
-        matched_user = self.db_session.query(User).filter(User.username == user_to_verify.username, 
+        with self.custom_db_session as db_session:
+            #Check if the username and password exists
+            matched_user = self.db_session.query(User).filter(User.username == user_to_verify.username, 
                                                            User.hashed_password == user_to_verify.hashed_password).first()
 
         
