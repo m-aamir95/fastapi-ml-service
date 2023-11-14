@@ -3,6 +3,7 @@ from transformers import pipeline
 from fastapi import HTTPException
 
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import PendingRollbackError
 
 from abc import ABC, abstractmethod
 

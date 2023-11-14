@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import PendingRollbackError
 
 from database.db_schema_models import User
 
