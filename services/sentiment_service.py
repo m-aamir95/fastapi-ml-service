@@ -28,12 +28,12 @@ class SentimentService(ABC):
 # HuggingFace implementation
 class SentimentServiceHuggingFace(SentimentService):
 
-    def __init__(self, custom_db_session : Session):
+    def __init__(self, db_session : Session):
 
         #TODO, By default, the pipeline object will choose a sentiment analysis model itself
         #We can configure it in the arguments
         self.sentiment_analysis_pipeline = pipeline("text-classification", model="m-aamir95/finetuning-sentiment-classification-model-with-amazon-appliances-data")
-        self.custom_db_session : Session = custom_db_session
+        self.db_session : Session = db_session
 
     
     def get_text_analysis(self, req : data_models.SentimentTextAnalysisWebRequest, user_service : UserService) -> dict:
@@ -60,25 +60,24 @@ class SentimentServiceHuggingFace(SentimentService):
                                                           sentiment_bag= json.dumps(text_analysis_model_resp[0]),
                                                           )
 
-        with self.custom_db_session as db_session:
-            try:
-                db_session.add(sentiment_record)
-                db_session.commit()
-                db_session.refresh(sentiment_record)
+        try:
+            self.db_session.add(sentiment_record)
+            self.db_session.commit()
+            self.db_session.refresh(sentiment_record)
 
-            except PendingRollbackError as rollback_error:
-                # Roll back the transaction and handle the error
-                db_session.rollback()
-                print(f"PendingRollbackError: {rollback_error}")
-                # Additional error handling if needed
-            except Exception as e:
-                # Roll back the transaction and handle other exceptions
-                db_session.rollback()
-                print(f"Error: {e}")
-                # Additional error handling if needed
-            finally:
-                # The session is automatically closed when the block exits
-                pass
+        except PendingRollbackError as rollback_error:
+            # Roll back the transaction and handle the error
+            self.db_session.rollback()
+            print(f"PendingRollbackError: {rollback_error}")
+            # Additional error handling if needed
+        except Exception as e:
+            # Roll back the transaction and handle other exceptions
+            self.db_session.rollback()
+            print(f"Error: {e}")
+            # Additional error handling if needed
+        finally:
+            # The session is automatically closed when the block exits
+            self.db_session.close()
     
 
         return {"model_resp" : text_analysis_model_resp}
