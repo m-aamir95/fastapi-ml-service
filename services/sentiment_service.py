@@ -62,9 +62,24 @@ class SentimentServiceHuggingFace(SentimentService):
 
         with self.custom_db_session as db_session:
 
-            self.db_session.add(sentiment_record)
-            self.db_session.commit()
-            self.db_session.refresh(sentiment_record)
+             try:
+                db_session.add(sentiment_record)
+                db_session.commit()
+                db_session.refresh(sentiment_record)
+
+            except PendingRollbackError as rollback_error:
+                # Roll back the transaction and handle the error
+                db_session.rollback()
+                print(f"PendingRollbackError: {rollback_error}")
+                # Additional error handling if needed
+            except Exception as e:
+                # Roll back the transaction and handle other exceptions
+                db_session.rollback()
+                print(f"Error: {e}")
+                # Additional error handling if needed
+            finally:
+                # The session is automatically closed when the block exits
+                pass
     
 
         return {"model_resp" : text_analysis_model_resp}
