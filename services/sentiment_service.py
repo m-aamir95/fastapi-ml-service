@@ -61,8 +61,7 @@ class SentimentServiceHuggingFace(SentimentService):
                                                           )
 
         with self.custom_db_session as db_session:
-
-             try:
+            try:
                 db_session.add(sentiment_record)
                 db_session.commit()
                 db_session.refresh(sentiment_record)
