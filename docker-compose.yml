@@ -11,7 +11,7 @@ services:
     image: sentiment_analysis_ui # Same as the service name in the docker-compose
     restart: always
     ports:
-     - 80:80
+     - 8401:8401
     depends_on: 
       - sentiment_analysis_fastapi
 
