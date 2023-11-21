@@ -39,7 +39,7 @@ RUN apt update  -y
 ENV NODE_ENV production
 
 # Expose the default http port
-EXPOSE 80 
+EXPOSE 8401
 
 # # Switch to less non-root user
 # USER node
