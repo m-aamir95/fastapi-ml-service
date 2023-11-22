@@ -39,7 +39,7 @@ RUN apt update  -y
 ENV NODE_ENV production
 
 # Expose the default http port
-EXPOSE 8401
+EXPOSE 80
 
 # # Switch to less non-root user
 # USER node
@@ -49,4 +49,4 @@ RUN npm install -g serve
 # Move the files from the builder image to this production image
 COPY --from=builder /app/build /app/build
 # The actual command to start our application
-CMD ["serve", "-p", "8401", "build"]
+CMD ["serve", "-p", "80", "build"]
