@@ -19,8 +19,8 @@ More information about the fine-tuned HuggingFace model can be viewed **[here](h
 
 To make deployment easier and smooth, docker has been employed which hosts the following three containers.
 
-1. FastAPI based backend container.
-2. ReactJS based frontend container.
+1. FastAPI-based backend container.
+2. ReactJS-based frontend container.
 3. MySQL database container.
 
 
@@ -30,17 +30,19 @@ To get started with the Project, follow these steps:
 
 1. Clone the repository: `git clone [repository link]`
 2. Navigate to the project directory: `cd fastapi-ml-service`
-3. Install the linux dependencies including docker: `sudo bash bash_scripts/install_system_dependencies.sh`
-4. Currently we need to manually create the `sentiment_db` inside the mysql docker container (Ideally it should be a part of post container init script). Following are the steps to manually create the `sentiment_db` inside the mysql container.
+3. Install the Linux dependencies including docker: `sudo bash bash_scripts/install_system_dependencies.sh`
+4. Currently we need to manually create the `sentiment_db` inside the mysql docker container (Ideally it should be a part of the post container init script). Following are the steps to manually create the `sentiment_db` inside the mysql container.
    *  `sudo docker-compose up --build -d db`
    *  `sudo docker exec -it db bash` # Jump into the db container
    *  `mysql -u root -p`
    *  When prompted enter the mysql root password which is by default set to `my-secret-pw`
    *  `create database sentiment_db;`
+   *  `use sentiment_db`;
+   *  `insert into User (username, hashed_password) VALUES("admin", "admin")`
    *  exit # Exit MySQL shell
    *  exit # Exit container
 5. Start all the containers `sudo docker-compose up -d --build`
-6. The FastAPI is hosted at `PORT 8080` and the ReactJS based frontend is hosted at `PORT 80`
+6. The FastAPI is hosted at `PORT 8080` and the ReactJS-based frontend is hosted at `PORT 80`
 7. Nagivate to `http://localhost:80`
 
 ## Usage
