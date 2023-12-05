@@ -11,7 +11,6 @@ WORKDIR /app
 # Copy the frontend application code to the working directory
 COPY ../../frontend/ui .
 
-
 # Copy package.json and package-lock.json to the working directory
 COPY ../../package*.json .
 
@@ -37,6 +36,10 @@ RUN apt update  -y
 #if that NODE_ENVenvironment variable is set to production. 
 #Putting aside our opinion on whether this is a good or bad practice for frameworks to take, it is important to know this.
 ENV NODE_ENV production
+
+# Get the env variables from docker-compose
+ARG PUBLIC_IP
+ENV PUBLIC_IP=${PUBLIC_IP}
 
 # Expose the default http port
 EXPOSE 80

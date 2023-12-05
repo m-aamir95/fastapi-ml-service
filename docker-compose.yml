@@ -9,6 +9,8 @@ services:
       dockerfile: docker/reactjs-frontend/dockerfile
     container_name: sentiment_analysis_frontend
     image: sentiment_analysis_ui # Same as the service name in the docker-compose
+    env_file:
+      - ./.frontend_env_variales.env
     restart: always
     ports:
      - 80:80

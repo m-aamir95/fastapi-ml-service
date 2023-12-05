@@ -28,13 +28,13 @@ const App = () => {
     const interval = setInterval(async () => {
       if (sentimentText !== prevSentimentText) {
         setPrevSentimentText(sentimentText);
-
+        
         //TODO; hardcoding IP address is not great for many reasons
         //TODO; ideally it should be on the localhost, and a proxy like nginx
         //TODO; should forward the requests to it
         //TODO; Moreover, hosts and ports should be located into a single conf file
         //TODO; and it should be read from there
-        const sentiment_api = "http://159.65.227.45:8080/api/ai_model/get_sentiment_score";
+        const sentiment_api = `http://${process.env.public_ip}:8080/api/ai_model/get_sentiment_score`;
         let resp = await fetch(sentiment_api, {
 
           method: "POST",
@@ -65,8 +65,6 @@ const App = () => {
           setNegativeProgressBar((Math.round(sentiment_confidence * 100)));
         }
 
-        console.log();
-        
       }
     }, 1000);
 
