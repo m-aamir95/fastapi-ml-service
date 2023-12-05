@@ -34,7 +34,7 @@ const App = () => {
         //TODO; should forward the requests to it
         //TODO; Moreover, hosts and ports should be located into a single conf file
         //TODO; and it should be read from there
-        const sentiment_api = `http://${process.env.REACT_APP_PUBLIC_IP}:8080/api/ai_model/get_sentiment_score`;
+        const sentiment_api = `http://172.208.34.164/:8080/api/ai_model/get_sentiment_score`;
         let resp = await fetch(sentiment_api, {
 
           method: "POST",
